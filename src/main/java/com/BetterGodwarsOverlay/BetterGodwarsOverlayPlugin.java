@@ -4,7 +4,7 @@ import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.api.widgets.ComponentID;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -56,7 +56,7 @@ public class BetterGodwarsOverlayPlugin extends Plugin
 		overlayManager.remove(gwdOverlay);
 
 		//restore widgets
-		final Widget killCount = client.getWidget(WidgetInfo.GWD_KC);
+		final Widget killCount = client.getWidget(ComponentID.GWD_KC_LAYER);
 		if (killCount != null)
 		{
 			killCount.setHidden(false);

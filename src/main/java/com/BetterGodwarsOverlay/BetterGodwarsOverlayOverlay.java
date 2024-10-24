@@ -2,11 +2,10 @@ package com.BetterGodwarsOverlay;
 
 import net.runelite.api.Client;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.api.widgets.ComponentID;
 import net.runelite.client.ui.overlay.OverlayMenuEntry;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.OverlayPriority;
 import net.runelite.client.ui.overlay.components.LineComponent;
 
 import javax.inject.Inject;
@@ -26,7 +25,7 @@ public class BetterGodwarsOverlayOverlay extends OverlayPanel
 	{
 		super(plugin);
 		setPosition(OverlayPosition.TOP_LEFT);
-		setPriority(OverlayPriority.LOW);
+		setPriority(PRIORITY_LOW);
 		this.client = client;
 		this.config = config;
 
@@ -39,7 +38,7 @@ public class BetterGodwarsOverlayOverlay extends OverlayPanel
 		boolean[] hideGods = {config.hideArmadyl(), config.hideBandos(), config.hideSaradomin(), config.hideZamorak(), config.hideAncient()};
 		int i = 0;
 		//hide original overlay
-		final Widget godwars = client.getWidget(WidgetInfo.GWD_KC);
+		final Widget godwars = client.getWidget(ComponentID.GWD_KC_LAYER);
 		if (godwars != null)
 		{
 			godwars.setHidden(true);
