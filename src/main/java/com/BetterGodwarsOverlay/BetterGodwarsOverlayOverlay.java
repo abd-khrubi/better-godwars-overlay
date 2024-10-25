@@ -1,8 +1,6 @@
 package com.BetterGodwarsOverlay;
 
 import net.runelite.api.Client;
-import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.ComponentID;
 import net.runelite.client.ui.overlay.OverlayMenuEntry;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -10,6 +8,8 @@ import net.runelite.client.ui.overlay.components.LineComponent;
 
 import javax.inject.Inject;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 import static net.runelite.api.MenuAction.RUNELITE_OVERLAY_CONFIG;
 import static net.runelite.client.ui.overlay.OverlayManager.OPTION_CONFIGURE;
@@ -17,16 +17,17 @@ import static net.runelite.client.ui.overlay.OverlayManager.OPTION_CONFIGURE;
 public class BetterGodwarsOverlayOverlay extends OverlayPanel
 {
 
-	private final Client client;
 	private final BetterGodwarsOverlayConfig config;
+	private final BetterGodwarsOverlayPlugin plugin;
 
 	@Inject
-	private BetterGodwarsOverlayOverlay(BetterGodwarsOverlayPlugin plugin, Client client, BetterGodwarsOverlayConfig config)
+	private BetterGodwarsOverlayOverlay(BetterGodwarsOverlayPlugin plugin, BetterGodwarsOverlayConfig config)
 	{
 		super(plugin);
 		setPosition(OverlayPosition.TOP_LEFT);
 		setPriority(PRIORITY_LOW);
-		this.client = client;
+
+		this.plugin = plugin;
 		this.config = config;
 
 		getMenuEntries().add(new OverlayMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "Godwars Overlay"));
@@ -35,45 +36,26 @@ public class BetterGodwarsOverlayOverlay extends OverlayPanel
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		boolean[] hideGods = {config.hideArmadyl(), config.hideBandos(), config.hideSaradomin(), config.hideZamorak(), config.hideAncient()};
-		int i = 0;
-		//hide original overlay
-		final Widget godwars = client.getWidget(ComponentID.GWD_KC_LAYER);
-		if (godwars != null)
-		{
-			godwars.setHidden(true);
-		}
+		final boolean inGwd = plugin.playerInGwd();
+		final boolean shouldShowOverlay = inGwd && config.showOverlay();
 
-		for (BetterGodwarsOverlayGods gods : BetterGodwarsOverlayGods.values())
-		{
+		if (shouldShowOverlay) {
+			Arrays.stream(plugin.godsInfo).filter(Objects::nonNull).forEach(godInfo -> {
+				if (godInfo.getConfigIsHidden()) {
+					return;
+				}
 
-			if (godwars == null)
-			{
-				continue;
-			}
-
-			if (hideGods[i])
-			{
-
-			}
-			else
-			{
-
-				final int killcounts = client.getVarbitValue(gods.getKillCountVarbit().getId());
+				final int killCount = godInfo.getCurrentKc();
+				final String name = godInfo.getGod().getName();
 
 				panelComponent.getChildren().add(LineComponent.builder()
-					.left(config.shortGodNames() ? gods.getName().substring(0, 2) : gods.getName())
-					.right(Integer.toString(killcounts))
-					.leftColor(config.godNameColor())
-					.rightColor(killcounts >= config.highlightOnKC() ? config.highlightOnKCColor() : Color.WHITE)
-					.build());
-
-			}
-			i++;
+								.left(config.shortGodNames() ? name.substring(0, 2) : name)
+								.leftColor(config.godNameColor())
+								.right(Integer.toString(killCount))
+								.rightColor(godInfo.getTextColor())
+								.build());
+			});
 		}
-
 		return super.render(graphics);
-
-
 	}
 }
