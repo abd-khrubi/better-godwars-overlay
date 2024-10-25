@@ -6,6 +6,7 @@ Get rid of that big clunky stinky Jagex overlay and replace it with a segsy slee
 - Customisable colours
 - Shorten God names for even more space
 - Highlight kill count when you reach the amount for boss room entry!
+- Option to replace overlay with compact info boxes
 
 ![](.README_images/af2ba73b.png)
 

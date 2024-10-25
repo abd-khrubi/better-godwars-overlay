@@ -2,8 +2,10 @@ package com.BetterGodwarsOverlay;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.runelite.client.util.ImageUtil;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class BetterGodwarsGodInfo {
 
@@ -11,6 +13,8 @@ public class BetterGodwarsGodInfo {
 
 	@Getter
 	private final BetterGodwarsOverlayGods god;
+
+	private final BufferedImage infoBoxIcon;
 
 	@Getter
 	@Setter
@@ -25,6 +29,7 @@ public class BetterGodwarsGodInfo {
 		this.plugin = plugin;
 		this.god = god;
 		this.hidden = hidden;
+		this.infoBoxIcon = ImageUtil.loadImageResource(getClass(), god.getImage());
 	}
 
 	public void update() {
@@ -62,7 +67,7 @@ public class BetterGodwarsGodInfo {
 			plugin.infoBoxManager.removeInfoBox(infoBox);
 			infoBox = null;
 		} else if (infoBox == null && !isHidden()) {
-			infoBox = new BetterGodwarsInfoBox(god.getIcon(), plugin, this);
+			infoBox = new BetterGodwarsInfoBox(infoBoxIcon, plugin, this);
 			plugin.infoBoxManager.addInfoBox(infoBox);
 		}
 	}
