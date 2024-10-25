@@ -4,21 +4,19 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 
+@Getter
 @RequiredArgsConstructor
-public enum BetterGodwarsOverlayGods
-{
+public enum BetterGodwarsOverlayGods {
 
-	ARMADYL("Armadyl", BetterGodwarsOverlayVarbits.GWD_ARMADYL_KC),
-	BANDOS("Bandos", BetterGodwarsOverlayVarbits.GWD_BANDOS_KC),
-	SARADOMIN("Saradomin", BetterGodwarsOverlayVarbits.GWD_SARADOMIN_KC),
-	ZAMORAK("Zamorak", BetterGodwarsOverlayVarbits.GWD_ZAMORAK_KC),
-	ZAROS("Ancient", BetterGodwarsOverlayVarbits.GWD_ZAROS_KC);
+	ARMADYL("Armadyl", BetterGodwarsOverlayVarbits.GWD_ARMADYL_KC, "armadyl.png"),
+	BANDOS("Bandos", BetterGodwarsOverlayVarbits.GWD_BANDOS_KC, "bandos.png"),
+	SARADOMIN("Saradomin", BetterGodwarsOverlayVarbits.GWD_SARADOMIN_KC, "saradomin.png"),
+	ZAMORAK("Zamorak", BetterGodwarsOverlayVarbits.GWD_ZAMORAK_KC, "zamorak.png"),
+	ZAROS("Ancient", BetterGodwarsOverlayVarbits.GWD_ZAROS_KC, "zaros.png");
 
-	@Getter
 	private final String name;
 
-	@Getter
 	private final BetterGodwarsOverlayVarbits killCountVarbit;
 
-
+	private final String image;
 }
