@@ -82,7 +82,7 @@ public interface BetterGodwarsOverlayConfig extends Config {
 	@ConfigItem(
 			keyName = "showZeroKc",
 			name = "Show Zero Kill Count",
-			description = "Show info boxes with zero kc",
+			description = "Show overlay entries and info boxes with zero kc",
 			section = generalSection
 	)
 	default boolean showZeroKc() {
